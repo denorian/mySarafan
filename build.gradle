@@ -25,6 +25,16 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.postgresql:postgresql')
+    compile('org.projectlombok:lombok')
+    compile('javax.xml.bind:jaxb-api')
+	// https://mvnrepository.com/artifact/com.sun.xml.bind/jaxb-core
+	compile group: 'com.sun.xml.bind', name: 'jaxb-core', version: '2.3.0.1'
+	// https://mvnrepository.com/artifact/com.sun.xml.bind/jaxb-impl
+	compile group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.3.0.1'
+
+
 }
 
 test {
