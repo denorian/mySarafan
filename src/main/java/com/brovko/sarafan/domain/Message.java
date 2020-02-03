@@ -20,9 +20,9 @@ public class Message {
 	
 	@JsonView({View.IdName.class})
 	private String text;
+	
 	@Column(updatable = false)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-	
 	@JsonView({View.FullMessage.class})
 	private LocalDateTime creationDate;
 	
