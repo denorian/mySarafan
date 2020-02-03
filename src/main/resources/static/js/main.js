@@ -1,3 +1,16 @@
+import Vue from 'vue';
+import VueResource from 'vue-resource'
+import App from "./pages/App.vue";
+
+Vue.use(VueResource);
+
+new Vue({
+    el: '#app',
+    render: a => a(App)
+
+});
+
+/*
 function getIndex(list, id) {
     for (var i = 0; i< list.length; i++){
         if(list[i].id === id){
@@ -45,10 +58,6 @@ Vue.component('message-form', {
             this.id = newVal.id;
         }
     },
-    template: '<div>' +
-        '<input type="text" placeholder="Write something" v-model="text">' +
-        '<input type="button" value="Save" @click="save">' +
-        '</div>',
     methods: {
         save: function () {
             var message = {text: this.text};
@@ -97,26 +106,4 @@ Vue.component('message-list', {
             this.message = message;
         }
     }
-});
-
-var app = new Vue({
-    el: '#app',
-    data: {
-        messages:  frontendData.messages,
-        profile: frontendData.profile
-    },
-    template: '<div>' +
-                '<div v-if="!profile">Необходимо авторизоваться через <a href="/login">Google</a></div>'+
-                '<div v-if="profile" >' +
-                    '<div>{{profile.name}}&nbsp; <a href="/logout">Logout</a> </div>' +
-                    '<message-list v-if="profile" :messages="messages"/>'+
-                '</div>' +
-            '</div>',
-    created: function () {
-       /* messageApi.get().then(result =>
-            result.json().then(data =>
-                data.forEach(message => this.messages.push(message))
-            )
-        )*/
-    }
-});
+});*/
