@@ -33,6 +33,8 @@ dependencies {
 	compile group: 'com.sun.xml.bind', name: 'jaxb-core', version: '2.3.0.1'
 	// https://mvnrepository.com/artifact/com.sun.xml.bind/jaxb-impl
 	compile group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.3.0.1'
+	compile('org.springframework.boot:spring-boot-starter-security')
+	compile('org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.0.0.RELEASE')
 
 
 }
