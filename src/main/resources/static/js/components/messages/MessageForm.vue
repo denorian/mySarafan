@@ -1,8 +1,12 @@
 <template>
-    <div>
-        <input type="text" placeholder="Write something" v-model="text">
-        <input type="button" value="Save" @click="save">
-    </div>
+    <v-layout>
+        <v-text-field
+                label="New message"
+                placeholder="Write something"
+                v-model="text"
+        ></v-text-field>
+        <v-btn @click="save">Save</v-btn>
+    </v-layout>
 </template>
 <script>
     import {sendMessage} from "../../util/ws";

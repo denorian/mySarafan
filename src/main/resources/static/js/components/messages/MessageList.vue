@@ -1,14 +1,14 @@
 <template>
-    <div style="position: relative; width: 300px">
+    <v-layout align-content-space-around="" justify-space-around="" column>
         <message-form :messages="messages" :messageAttr="message"/>
-        <message-row v-for="message in messages"
+        <message-row v-for="message in sortedMessages"
                      :message="message"
                      :key="message.id"
                      :editMessage="editMessage"
                      :deleteMessage="deleteMessage"
                      :messages="messages">
         </message-row>
-    </div>
+    </v-layout>
 </template>
 <script>
     import MessageRow from "components/messages/MessageRow.vue";
@@ -23,6 +23,11 @@
             return {
                 message: null
             }
+        },
+        computed: {
+          sortedMessages(){
+              return this.messages.sort((a, b) => -(a.id > b.id))
+          }
         },
         methods: {
             editMessage(message) {
