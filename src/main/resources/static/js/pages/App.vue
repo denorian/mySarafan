@@ -14,26 +14,23 @@
                 <a href="/login">Google</a>
             </v-container>
             <v-container v-if="profile">
-                <messages-list :messages="messages" />
+                <messages-list/>
             </v-container>
         </v-content>
     </v-app>
 </template>
 
 <script>
+    import {mapState, mapMutations} from 'vuex'
     import MessagesList from 'components/messages/MessageList.vue'
-    import { addHandler } from 'util/ws'
+    import {addHandler} from 'util/ws'
 
     export default {
         components: {
             MessagesList
         },
-        data() {
-            return {
-                messages: frontendData.messages,
-                profile: frontendData.profile
-            }
-        },
+        computed: mapState(['profile', 'messages']),
+        methods: mapMutations(['addMessageMutation', 'updateMessageMutation', 'removeMessageMutation']),
         created() {
             addHandler(data => {
                 if (data.objectType === 'MESSAGE') {
@@ -41,12 +38,10 @@
 
                     switch (data.eventType) {
                         case 'CREATE':
+                            this.addMessageMutation(data.body);
+                            break;
                         case 'UPDATE':
-                            if (index > -1) {
-                                this.messages.splice(index, 1, data.body)
-                            } else {
-                                this.messages.push(data.body)
-                            }
+                            this.updateMessageMutation(data.body);
                             break
                         case 'REMOVE':
                             this.messages.splice(index, 1)
