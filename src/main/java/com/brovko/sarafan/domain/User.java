@@ -1,6 +1,7 @@
 package com.brovko.sarafan.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,8 +13,11 @@ import java.time.LocalDateTime;
 @Table(name = "usr")
 public class User implements Serializable {
 	@Id
+	@JsonView({View.IdName.class})
 	private String id;
+	@JsonView({View.IdName.class})
 	private String name;
+	@JsonView({View.IdName.class})
 	private String userPic;
 	private String email;
 	private String gender;

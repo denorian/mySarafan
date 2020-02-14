@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table
@@ -25,6 +26,15 @@ public class Message {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 	@JsonView({View.FullMessage.class})
 	private LocalDateTime creationDate;
+	
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	@JsonView({View.FullMessage.class})
+	private User author;
+	
+	@OneToMany(mappedBy = "message", orphanRemoval = true)
+	@JsonView({View.FullMessage.class})
+	private List<Comment> comments;
 	
 	@JsonView({View.FullMessage.class})
 	private String link;
@@ -57,6 +67,22 @@ public class Message {
 	
 	public void setCreationDate(LocalDateTime creationDate) {
 		this.creationDate = creationDate;
+	}
+	
+	public User getAuthor() {
+		return author;
+	}
+	
+	public void setAuthor(User author) {
+		this.author = author;
+	}
+	
+	public List<Comment> getComments() {
+		return comments;
+	}
+	
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
 	}
 	
 	public String getLink() {
