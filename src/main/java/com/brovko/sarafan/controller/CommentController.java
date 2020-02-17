@@ -20,13 +20,11 @@ public class CommentController {
 	}
 	
 	@PostMapping
-	@JsonView(View.FullMessage.class)
+	@JsonView(View.FullComment.class)
 	public Comment create(
 			@RequestBody Comment comment,
 			@AuthenticationPrincipal User user
 	) {
-		
-		
 		return commentService.create(comment, user);
 	}
 }

@@ -6,13 +6,15 @@
                    v-if="profile"
                    :disabled="$route.path === '/'"
                    @click="showMessages"
-            >Messages</v-btn>
+            >Messages
+            </v-btn>
             <v-spacer></v-spacer>
             <v-btn text
                    v-if="profile"
                    :disabled="$route.path === '/profile'"
                    @click="showProfile"
-            >{{profile.name}}</v-btn>
+            >{{profile.name}}
+            </v-btn>
             <v-btn v-if="profile" icon href="/logout">
                 <v-icon>exit_to_app</v-icon>
             </v-btn>
@@ -30,11 +32,16 @@
     export default {
         computed: mapState(['profile', 'messages']),
         methods: {
-            ...mapMutations(['addMessageMutation', 'updateMessageMutation', 'removeMessageMutation']),
-            showMessages(){
+            ...mapMutations([
+                'addMessageMutation',
+                'updateMessageMutation',
+                'removeMessageMutation',
+                'addCommentMutation'
+            ]),
+            showMessages() {
                 this.$router.push('/');
             },
-            showProfile(){
+            showProfile() {
                 this.$router.push('/profile');
             },
 
@@ -42,8 +49,6 @@
         created() {
             addHandler(data => {
                 if (data.objectType === 'MESSAGE') {
-                    const index = this.messages.findIndex(item => item.id === data.body.id)
-
                     switch (data.eventType) {
                         case 'CREATE':
                             this.addMessageMutation(data.body);
@@ -52,8 +57,16 @@
                             this.updateMessageMutation(data.body);
                             break
                         case 'REMOVE':
-                            this.messages.splice(index, 1)
+                            this.removeMessageMutation(data.body);
                             break
+                        default:
+                            console.error(`Looks like the event type if unknown "${data.eventType}"`)
+                    }
+                } else if (data.objectType === 'COMMENT') {
+                    switch (data.eventType) {
+                        case 'CREATE':
+                            this.addCommentMutation(data.body);
+                            break;
                         default:
                             console.error(`Looks like the event type if unknown "${data.eventType}"`)
                     }
@@ -63,7 +76,7 @@
             })
         },
         beforeMount() {
-            if(!this.profile){
+            if (!this.profile) {
                 this.$router.replace('/auth');
             }
         }
