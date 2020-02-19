@@ -11,7 +11,7 @@
             <v-spacer></v-spacer>
             <v-btn text
                    v-if="profile"
-                   :disabled="$route.path === '/profile'"
+                   :disabled="$route.path === '/user'"
                    @click="showProfile"
             >{{profile.name}}
             </v-btn>
@@ -42,7 +42,7 @@
                 this.$router.push('/');
             },
             showProfile() {
-                this.$router.push('/profile');
+                this.$router.push('/user');
             },
 
         },
@@ -84,5 +84,7 @@
 </script>
 
 <style>
-
+    a {
+        text-decoration: none;
+    }
 </style>
