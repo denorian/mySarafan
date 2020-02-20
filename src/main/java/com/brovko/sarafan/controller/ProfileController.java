@@ -33,7 +33,7 @@ public class ProfileController {
 		if (subscriber.equals(channel)) {
 			return channel;
 		} else {
-			return profileService.changeSubscription(subscriber, channel);
+			return profileService.changeSubscription(channel, subscriber);
 		}
 	}
 }

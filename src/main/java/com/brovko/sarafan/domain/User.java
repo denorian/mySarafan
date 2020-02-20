@@ -1,19 +1,18 @@
 package com.brovko.sarafan.domain;
 
 import com.fasterxml.jackson.annotation.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "usr")
-@EqualsAndHashCode(of = {"id"})
-public class User implements Serializable {
+@ToString(of = {"id", "name"})
+public class User{
 	@Id
 	@JsonView({View.IdName.class})
 	private String id;
@@ -31,33 +30,20 @@ public class User implements Serializable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime lastVisit;
 	
-	@ManyToMany
-	@JoinTable(
-			name = "user_subscriptions",
-			joinColumns = @JoinColumn(name = "subscriber_id"),
-			inverseJoinColumns = @JoinColumn(name = "channel_id")
-	)
 	@JsonView({View.FullProfile.class})
-	@JsonIdentityReference
-	@JsonIdentityInfo(
-			property = "id",
-			generator = ObjectIdGenerators.PropertyGenerator.class
+	@OneToMany(
+			mappedBy = "subscriber",
+			orphanRemoval = true
 	)
-	private Set<User> subscriptions = new HashSet<>();
+	private Set<UserSubscription> subscriptions = new HashSet<>();
 	
-	@ManyToMany
-	@JoinTable(
-			name = "user_subscriptions",
-			joinColumns = @JoinColumn(name = "channel_id"),
-			inverseJoinColumns = @JoinColumn(name = "subscriber_id")
-	)
 	@JsonView({View.FullProfile.class})
-	@JsonIdentityReference
-	@JsonIdentityInfo(
-			property = "id",
-			generator = ObjectIdGenerators.PropertyGenerator.class
+	@OneToMany(
+			mappedBy = "channel",
+			orphanRemoval = true,
+			cascade = CascadeType.ALL
 	)
-	private Set<User> subscribers = new HashSet<>();
+	private Set<UserSubscription> subscribers = new HashSet<>();
 	
 	public String getId() {
 		return id;
@@ -115,19 +101,32 @@ public class User implements Serializable {
 		this.lastVisit = lastVisit;
 	}
 	
-	public Set<User> getSubscriptions() {
+	public Set<UserSubscription> getSubscriptions() {
 		return subscriptions;
 	}
 	
-	public void setSubscriptions(Set<User> subscriptions) {
+	public void setSubscriptions(Set<UserSubscription> subscriptions) {
 		this.subscriptions = subscriptions;
 	}
 	
-	public Set<User> getSubscribers() {
+	public Set<UserSubscription> getSubscribers() {
 		return subscribers;
 	}
 	
-	public void setSubscribers(Set<User> subscribers) {
+	public void setSubscribers(Set<UserSubscription> subscribers) {
 		this.subscribers = subscribers;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		User user = (User) o;
+		return Objects.equals(id, user.id);
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
 	}
 }

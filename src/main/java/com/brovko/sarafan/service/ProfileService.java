@@ -1,11 +1,13 @@
 package com.brovko.sarafan.service;
 
 import com.brovko.sarafan.domain.User;
+import com.brovko.sarafan.domain.UserSubscription;
 import com.brovko.sarafan.repo.UserDetailsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProfileService {
@@ -16,13 +18,19 @@ public class ProfileService {
 		this.userDetailsRepo = userDetailsRepo;
 	}
 	
-	public User changeSubscription(User subscriber, User channel) {
-		Set<User> subscribers = channel.getSubscribers();
+	public User changeSubscription(User channel, User subscriber) {
+		List<UserSubscription> subcriptions = channel.getSubscribers()
+				.stream()
+				.filter(subscription ->
+						subscription.getSubscriber().equals(subscriber)
+				)
+				.collect(Collectors.toList());
 		
-		if (subscribers.contains(subscriber)) {
-			subscribers.remove(subscriber);
+		if (subcriptions.isEmpty()) {
+			UserSubscription subscription = new UserSubscription(channel, subscriber);
+			channel.getSubscribers().add(subscription);
 		} else {
-			subscribers.add(subscriber);
+			channel.getSubscribers().removeAll(subcriptions);
 		}
 		
 		return userDetailsRepo.save(channel);

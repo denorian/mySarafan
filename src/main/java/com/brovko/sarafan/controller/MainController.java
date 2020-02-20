@@ -58,7 +58,7 @@ public class MainController {
 			
 			Sort sort = Sort.by(Sort.Direction.DESC, "id");
 			PageRequest pageRequest = PageRequest.of(0, MessageController.MESSAGES_PER_PAGE, sort);
-			MessagePageDto messagePageDto = messageService.findAll(pageRequest);
+			MessagePageDto messagePageDto = messageService.findForUser(pageRequest, user);
 			model.addAttribute("messages", messagewriter.writeValueAsString(messagePageDto.getMessages()));
 			data.put("currentPage", messagePageDto.getCurrentPage());
 			data.put("totalPages", messagePageDto.getTotalPage());
