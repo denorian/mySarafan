@@ -15,7 +15,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -95,7 +94,7 @@ public class MessageService {
 	
 	public Message update(Message messageFromDb, Message message) throws IOException {
 		fillMeta(message);
-		BeanUtils.copyProperties(message, messageFromDb, "id");
+		messageFromDb.setText(message.getText());
 		Message updatedMessage = messageRepo.save(messageFromDb);
 		wsSender.accept(EventType.UPDATE, updatedMessage);
 		
@@ -115,6 +114,7 @@ public class MessageService {
 		
 		List<User> channels = userSubscriptionRepo.findBySubscriber(user)
 				.stream()
+				.filter(UserSubscription::isActive)
 				.map(UserSubscription::getChannel)
 				.collect(Collectors.toList());
 		
