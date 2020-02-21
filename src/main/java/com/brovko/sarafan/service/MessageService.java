@@ -44,7 +44,7 @@ public class MessageService {
 	public MessageService(MessageRepo messageRepo, UserSubscriptionRepo userSubscriptionRepo, WsSender wsSender) {
 		this.messageRepo = messageRepo;
 		this.userSubscriptionRepo = userSubscriptionRepo;
-		this.wsSender = wsSender.getSender(ObjectType.MESSAGE, View.IdName.class);
+		this.wsSender = wsSender.getSender(ObjectType.MESSAGE, View.FullMessage.class);
 	}
 	
 	private void fillMeta(Message message) throws IOException {
@@ -120,7 +120,7 @@ public class MessageService {
 		
 		channels.add(user);
 		
-		Page<Message> messagePage = messageRepo.findByAuthorIn(channels,pageable);
+		Page<Message> messagePage = messageRepo.findByAuthorIn(channels, pageable);
 		
 		return new MessagePageDto(
 				messagePage.getContent(),

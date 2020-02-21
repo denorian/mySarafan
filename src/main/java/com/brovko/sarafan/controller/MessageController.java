@@ -41,6 +41,7 @@ public class MessageController {
 	}
 	
 	@PostMapping
+	@JsonView({View.FullMessage.class})
 	public Message create(@RequestBody Message message,
 						  @AuthenticationPrincipal User user
 	) throws IOException {
@@ -48,6 +49,7 @@ public class MessageController {
 	}
 	
 	@PutMapping("{id}")
+	@JsonView({View.FullMessage.class})
 	public Message update(@PathVariable("id") Message messageFromDb, @RequestBody Message message) throws IOException {
 		return messageService.update(messageFromDb, message);
 	}
