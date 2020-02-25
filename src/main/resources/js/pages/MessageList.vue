@@ -12,8 +12,8 @@
 </template>
 <script>
     import { mapGetters } from 'vuex'
-    import MessageRow from 'components/messages/MessageRow.vue'
-    import MessageForm from 'components/messages/MessageForm.vue'
+    import MessageRow from '../components/messages/MessageRow.vue'
+    import MessageForm from '../components/messages/MessageForm.vue'
     import LazyLoader from '../components/LazyLoader.vue'
     export default {
         components: {

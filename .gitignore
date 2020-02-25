@@ -24,3 +24,5 @@ out/
 /package-lock.json
 /yarn-error.log
 /src/main/resources/sentry.properties
+
+/src/main/resources/static/js
