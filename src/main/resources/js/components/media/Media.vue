@@ -18,7 +18,7 @@
                        :src="message.linkCover"
                        aspect-ratio="2.75"
                 ></v-img>
-                {{message.link}}}
+                {{message.link}}
             </a>
         </v-flex>
         <v-flex v-if="type === 'youtube'" xs12 sm6 offset-sm3>

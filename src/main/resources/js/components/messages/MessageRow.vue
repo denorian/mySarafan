@@ -5,7 +5,7 @@
             <div class="pt-3">{{message.text}}</div>
         </v-card-text>
         <media v-if="message.link" :message="message"></media>
-        <v-card-actions>
+        <v-card-actions v-if="isAuthor">
             <v-btn small rounded value="Edit" @click="edit">
                 Edit
             </v-btn>
@@ -28,6 +28,11 @@
     export default {
         props: ['message', 'editMessage'],
         components: {UserLink, CommentList, Media},
+        computed: {
+            isAuthor() {
+                return this.message.author.id === this.$store.state.profile.id
+            }
+        },
         methods: {
             ...mapActions(['removeMessageAction']),
             edit: function () {
