@@ -23,8 +23,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/","/login**","/js/**", "/error**").permitAll()
 				.anyRequest().authenticated()
 				.and().logout().logoutSuccessUrl("/").permitAll()
-				.and()
-				.csrf().disable();
+				.and().headers().frameOptions().disable()
+				.and().csrf().disable();
 	}
 	
 	@Bean
