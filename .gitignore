@@ -26,3 +26,5 @@ out/
 /src/main/resources/sentry.properties
 
 /src/main/resources/static/js
+/scripts/deploy.sh
+/src/main/resources/application-dev.properties
